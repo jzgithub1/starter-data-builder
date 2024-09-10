@@ -14,6 +14,7 @@ import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.list.MutableList;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -117,12 +118,14 @@ public class Sept2024ConnectathonStarterData {
                                          float referenceRangeMinimum, float referenceRangeMaximum, String exampleUUCM) {
 
         MutableList<Object> classPatternFields = Lists.mutable.empty();
-        classPatternFields.add(cdcField1.nid());
-        classPatternFields.add(greaterThanConceptField2.nid());
+        classPatternFields.add(cdcField1);
+        classPatternFields.add(greaterThanConceptField2);
         classPatternFields.add(referenceRangeMinimum);
-        classPatternFields.add(TinkarTerm.LESS_THAN.nid());
+        classPatternFields.add(TinkarTerm.LESS_THAN);
         classPatternFields.add(referenceRangeMaximum);
         classPatternFields.add(exampleUUCM);
+
+
 
         UUIDUtility uuidUtility = new UUIDUtility();
         PublicId patternPublicId = PublicIds.of(uuidUtility.createUUID("Value Constraint Pattern"));
