@@ -127,12 +127,12 @@ public class Sept2024ConnectathonStarterData {
 
 
 
-        UUIDUtility uuidUtility = new UUIDUtility();
-        PublicId patternPublicId = PublicIds.of(uuidUtility.createUUID("Value Constraint Pattern"));
-        int patternNid = EntityService.get().nidForPublicId(patternPublicId);
+        //UUIDUtility uuidUtility = new UUIDUtility();
+        //PublicId patternPublicId = PublicIds.of(uuidUtility.createUUID("Value Constraint Pattern"));
+        int patternNid = EntityService.get().nidForPublicId(TinkarTerm.VALUE_CONSTRAINT_PATTERN);
         PublicId referencedComponentPublicID = bmiConcept.publicId();
         int referencedComponentNid = EntityService.get().nidForPublicId(referencedComponentPublicID);
-        PublicId semantic = PublicIds.singleSemanticId(patternPublicId, referencedComponentPublicID);
+        PublicId semantic = PublicIds.singleSemanticId(TinkarTerm.VALUE_CONSTRAINT_PATTERN, referencedComponentPublicID);
         int semanticNid = EntityService.get().nidForPublicId(semantic);
         UUID primordialUUID = semantic.asUuidArray()[0];
         int stampNid = EntityService.get().nidForPublicId(starterData.getAuthoringSTAMP());
