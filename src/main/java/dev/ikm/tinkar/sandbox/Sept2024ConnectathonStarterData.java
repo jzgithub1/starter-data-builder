@@ -14,7 +14,6 @@ import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.list.MutableList;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -62,24 +61,82 @@ public class Sept2024ConnectathonStarterData {
 
         configureConnectathonPatterns( starterData,  uuidUtility);
 
+        configureValueContraintSemantics(starterData,uuidUtility);
+
     }
 
     protected static void configureValueContraintSemantics(StarterData starterData, UUIDUtility uuidUtility){
-        Concept snomedAuthor = Concept.make("IHTSDO SNOMED CT Author", uuidUtility.createUUID("IHTSDO SNOMED CT Author"));
-        starterData.concept(snomedAuthor)
-                .fullyQualifiedName("IHTSDO SNOMED CT Author", TinkarTerm.PREFERRED)
-                .synonym("SNOMED CT Author", TinkarTerm.PREFERRED)
-                .definition("International Health Terminology Standards Development Organisation (IHTSDO) SNOMED CT Author", TinkarTerm.PREFERRED)
-                .identifier(TinkarTerm.UNIVERSALLY_UNIQUE_IDENTIFIER, snomedAuthor.asUuidArray()[0].toString())
-                .statedDefinition(List.of(TinkarTerm.USER))
+
+        Concept cdcField1 = Concept.make("CDC", UUID.nameUUIDFromBytes("LP207920-2".getBytes()));
+        starterData.concept(cdcField1)
+                .synonym("CDC",TinkarTerm.PREFERRED)
+                .fullyQualifiedName("Center For Disease Control and Prevention",TinkarTerm.US_ENGLISH_DIALECT)
+                .identifier(TinkarTerm.UNIVERSALLY_UNIQUE_IDENTIFIER, cdcField1.asUuidArray()[0].toString())
                 .build();
 
-        Concept snomedIdentifier = Concept.make("SNOMED CT Identifier", UuidUtil.fromSNOMED("900000000000294009"));
-        starterData.concept(snomedIdentifier)
-                .statedDefinition(List.of(TinkarTerm.IDENTIFIER_SOURCE))
-                .build();
+        Concept greaterThanConceptField2 = TinkarTerm.GREATER_THAN_OR_EQUAL_TO;
+
+        BMIConcept concept = new BMIConcept("248342006","Underweight (finding)");
+        Concept bmiConcept = getBmiConcept(starterData, concept);
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2, (float) 0, 18.5F, "lb/in^2");
+        concept = new BMIConcept("43664005", "Normal weight (finding)");
+        bmiConcept = getBmiConcept(starterData, concept);
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2, 18.5F, 25.0F, "lb/in^2");
+        concept = new BMIConcept("414915002", "Obese (finding)");
+        bmiConcept = getBmiConcept(starterData, concept);
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,30, 500, "lb/in^2");
+        concept = new BMIConcept("162864005", "Body mass index 30+ - obesity (finding)");
+        bmiConcept = getBmiConcept(starterData, concept);
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,30, 500, "lb/in^2");
+        concept = new BMIConcept("443371000124107", "Obese class I (finding) (Body mass index 30.00 to 34.99)");
+        bmiConcept = getBmiConcept(starterData, concept);
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,30, 35, "lb/in^2");
+        concept = new BMIConcept("443381000124105", "Obese class II (finding) ( Body mass index 35.00 to 39.99)");
+        bmiConcept = getBmiConcept(starterData, concept);
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,30, 35, "lb/in^2");
+        concept = new BMIConcept("408512008", "Body mass index 40+ - severely obese (finding)");
+        bmiConcept = getBmiConcept(starterData, concept);
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,40, 500, "lb/in^2");
+        concept = new BMIConcept("819948005", "Obese class III (finding) (Body mass index equal to or greater than 40)");
+        bmiConcept = getBmiConcept(starterData, concept);
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,40, 500, "lb/in^2");
 
     }
+
+    private static Concept getBmiConcept(StarterData starterData, BMIConcept concept) {
+        Concept bmiConcept = concept.makeConcept();
+        starterData.concept(bmiConcept)
+                .synonym(concept.getDecription(),TinkarTerm.PREFERRED)
+                .identifier(TinkarTerm.UNIVERSALLY_UNIQUE_IDENTIFIER, bmiConcept.asUuidArray()[0].toString())
+                .build();
+        return bmiConcept;
+    }
+
+    private static void createBMISematic(StarterData starterData,
+                                         Concept bmiConcept, Concept cdcField1, Concept greaterThanConceptField2,
+                                         float referenceRangeMinimum, float referenceRangeMaximum, String exampleUUCM) {
+
+        MutableList<Object> classPatternFields = Lists.mutable.empty();
+        classPatternFields.add(cdcField1.nid());
+        classPatternFields.add(greaterThanConceptField2.nid());
+        classPatternFields.add(referenceRangeMinimum);
+        classPatternFields.add(TinkarTerm.LESS_THAN.nid());
+        classPatternFields.add(referenceRangeMaximum);
+        classPatternFields.add(exampleUUCM);
+
+        UUIDUtility uuidUtility = new UUIDUtility();
+        PublicId patternPublicId = PublicIds.of(uuidUtility.createUUID("Value Constraint Pattern"));
+        int patternNid = EntityService.get().nidForPublicId(patternPublicId);
+        PublicId referencedComponentPublicID = bmiConcept.publicId();
+        int referencedComponentNid = EntityService.get().nidForPublicId(referencedComponentPublicID);
+        PublicId semantic = PublicIds.singleSemanticId(patternPublicId, referencedComponentPublicID);
+        int semanticNid = EntityService.get().nidForPublicId(semantic);
+        UUID primordialUUID = semantic.asUuidArray()[0];
+        int stampNid = EntityService.get().nidForPublicId(starterData.getAuthoringSTAMP());
+
+        writeSemantic(semanticNid, primordialUUID, patternNid, referencedComponentNid, stampNid, classPatternFields);
+    }
+
 
     protected static void configureConnectathonPatterns(StarterData starterData, UUIDUtility uuidUtility){
 
