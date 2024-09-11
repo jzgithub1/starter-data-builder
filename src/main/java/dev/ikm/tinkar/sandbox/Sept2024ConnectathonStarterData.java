@@ -20,8 +20,9 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 public class Sept2024ConnectathonStarterData {
+    public static final String EXAMPLE_UUCM = "lb/in^2";
+    //public static final String EXAMPLE_UUCM = "kg/m^2";
     private static File exportFile;
-
     public static void main(String[] args){
 
         TinkarStarterData.main(args);
@@ -88,28 +89,28 @@ public class Sept2024ConnectathonStarterData {
 
         BMIConcept concept = new BMIConcept("248342006","Underweight (finding)");
         Concept bmiConcept = getBmiConcept(starterData, concept);
-        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2, (float) 0, 18.5F, "lb/in^2");
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2, (float) 0, 18.5F, EXAMPLE_UUCM);
         concept = new BMIConcept("43664005", "Normal weight (finding)");
         bmiConcept = getBmiConcept(starterData, concept);
-        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2, 18.5F, 25.0F, "lb/in^2");
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2, 18.5F, 25.0F, EXAMPLE_UUCM);
         concept = new BMIConcept("414915002", "Obese (finding)");
         bmiConcept = getBmiConcept(starterData, concept);
-        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,30, 500, "lb/in^2");
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,30, 500, EXAMPLE_UUCM);
         concept = new BMIConcept("162864005", "Body mass index 30+ - obesity (finding)");
         bmiConcept = getBmiConcept(starterData, concept);
-        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,30, 500, "lb/in^2");
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,30, 500, EXAMPLE_UUCM);
         concept = new BMIConcept("443371000124107", "Obese class I (finding) (Body mass index 30.00 to 34.99)");
         bmiConcept = getBmiConcept(starterData, concept);
-        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,30, 35, "lb/in^2");
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,30, 35, EXAMPLE_UUCM);
         concept = new BMIConcept("443381000124105", "Obese class II (finding) ( Body mass index 35.00 to 39.99)");
         bmiConcept = getBmiConcept(starterData, concept);
-        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,30, 35, "lb/in^2");
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,30, 35, EXAMPLE_UUCM);
         concept = new BMIConcept("408512008", "Body mass index 40+ - severely obese (finding)");
         bmiConcept = getBmiConcept(starterData, concept);
-        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,40, 500, "lb/in^2");
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,40, 500, EXAMPLE_UUCM);
         concept = new BMIConcept("819948005", "Obese class III (finding) (Body mass index equal to or greater than 40)");
         bmiConcept = getBmiConcept(starterData, concept);
-        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,40, 500, "lb/in^2");
+        createBMISematic(starterData,bmiConcept,cdcField1,greaterThanConceptField2,40, 500, EXAMPLE_UUCM);
 
     }
 
