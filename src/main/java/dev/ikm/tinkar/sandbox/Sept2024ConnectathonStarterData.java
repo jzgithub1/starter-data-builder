@@ -46,19 +46,28 @@ public class Sept2024ConnectathonStarterData {
     }
 
     protected static void configureConceptsAndPatterns(StarterData starterData, UUIDUtility uuidUtility){
-        Concept snomedAuthor = Concept.make("IHTSDO SNOMED CT Author", uuidUtility.createUUID("IHTSDO SNOMED CT Author"));
-        starterData.concept(snomedAuthor)
-                .fullyQualifiedName("IHTSDO SNOMED CT Author", TinkarTerm.PREFERRED)
-                .synonym("SNOMED CT Author", TinkarTerm.PREFERRED)
-                .definition("International Health Terminology Standards Development Organisation (IHTSDO) SNOMED CT Author", TinkarTerm.PREFERRED)
-                .identifier(TinkarTerm.UNIVERSALLY_UNIQUE_IDENTIFIER, snomedAuthor.asUuidArray()[0].toString())
-                .statedDefinition(List.of(TinkarTerm.USER))
+//        Concept snomedAuthor = Concept.make("IHTSDO SNOMED CT Author", uuidUtility.createUUID("IHTSDO SNOMED CT Author"));
+//        starterData.concept(snomedAuthor)
+//                .fullyQualifiedName("IHTSDO SNOMED CT Author", TinkarTerm.PREFERRED)
+//                .synonym("SNOMED CT Author", TinkarTerm.PREFERRED)
+//                .definition("International Health Terminology Standards Development Organisation (IHTSDO) SNOMED CT Author", TinkarTerm.PREFERRED)
+//                .identifier(TinkarTerm.UNIVERSALLY_UNIQUE_IDENTIFIER, snomedAuthor.asUuidArray()[0].toString())
+//                .statedDefinition(List.of(TinkarTerm.USER))
+//                .build();
+//
+//        Concept snomedIdentifier = Concept.make("SNOMED CT Identifier", UuidUtil.fromSNOMED("900000000000294009"));
+//        starterData.concept(snomedIdentifier)
+//                .statedDefinition(List.of(TinkarTerm.IDENTIFIER_SOURCE))
+//                .build();
+
+        Concept performance = Concept.make("Performance", UUID.fromString("395cc864-7c51-4072-b3e7-f9195b40053a"));
+        starterData.concept(performance)
+                .fullyQualifiedName("Performance", TinkarTerm.PREFERRED)
+                .synonym("Performance", TinkarTerm.PREFERRED)
+                .identifier(TinkarTerm.UNIVERSALLY_UNIQUE_IDENTIFIER, performance.asUuidArray()[0].toString())
+                .statedDefinition(List.of(TinkarTerm.MODEL_CONCEPT))
                 .build();
 
-        Concept snomedIdentifier = Concept.make("SNOMED CT Identifier", UuidUtil.fromSNOMED("900000000000294009"));
-        starterData.concept(snomedIdentifier)
-                .statedDefinition(List.of(TinkarTerm.IDENTIFIER_SOURCE))
-                .build();
 
         configureConnectathonPatterns( starterData,  uuidUtility);
 
