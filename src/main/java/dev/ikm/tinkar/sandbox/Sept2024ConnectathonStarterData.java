@@ -25,7 +25,6 @@ public class Sept2024ConnectathonStarterData {
     private static File exportFile;
     public static void main(String[] args){
 
-        TinkarStarterData.main(args);
         File exportDataStore = new File(args[0]);
         exportFile = new File(args[1]);
         UUIDUtility uuidUtility = new UUIDUtility();
